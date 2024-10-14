@@ -1,0 +1,18 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    container_name: mysql_container
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: example_db 
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: thanhnt10                   # tên user
+      MYSQL_PASSWORD: thanhnt10      # mật khẩu cho user
+    ports:
+      - "3306:3306"                      # ánh xạ cổng MySQL bên trong container ra cổng 3306 bên ngoài
+    volumes:
+      - E:\Setup\Docker\MySql\Data:/var/lib/mysql        # mount volume để lưu trữ dữ liệu của MySQL

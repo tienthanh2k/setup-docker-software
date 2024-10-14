@@ -1,0 +1,116 @@
+# version: '3.8'
+
+# services:
+#   keycloak:
+#     image: quay.io/keycloak/keycloak:lastest
+#     command: start
+#     environment:
+#       KC_HOSTNAME: localhost
+#       KC_HOSTNAME_PORT: 8080
+#       KC_HOSTNAME_STRICT_BACKCHANNEL: false
+#       KC_HTTP_ENABLED: true
+#       KC_HOSTNAME_STRICT_HTTPS: false
+#       KC_HEALTH_ENABLED: true
+#       KEYCLOAK_ADMIN: admin
+#       KEYCLOAK_ADMIN_PASSWORD: 123456
+#       KC_DB: postgres
+#       KC_DB_URL: jdbc:postgresql://postgres_container/5432
+#       KC_DB_USERNAME: admin
+#       KC_DB_PASSWORD: 123456
+#     ports:
+#       - 8085:8080
+#     restart: always
+#     depends_on:
+#       - postgres_container
+#     networks:
+#       - task_hub_network
+
+# networks:
+#   task_hub_network:
+#     driver: bridge
+
+# ----------------------
+# version: '3.8'
+
+# services:
+#   keycloak_web:
+#     image: quay.io/keycloak/keycloak:21.1.0
+#     container_name: task_keycloak_web
+#     environment:
+#       KC_DB: postgres
+#       KC_DB_URL: jdbc:postgresql://keycloakdb:5432/keycloak
+#       KC_DB_USERNAME: admin
+#       KC_DB_PASSWORD: 123456
+
+#       KC_HOSTNAME: localhost
+#       KC_HOSTNAME_PORT: 8080
+#       KC_HOSTNAME_STRICT: false
+#       KC_HOSTNAME_STRICT_HTTPS: false
+
+#       KC_LOG_LEVEL: info
+#       KC_METRICS_ENABLED: true
+#       KC_HEALTH_ENABLED: true
+#       KEYCLOAK_ADMIN: admin
+#       KEYCLOAK_ADMIN_PASSWORD: admin
+#     command: start-dev
+#     depends_on:
+#       - keycloakdb
+#     ports:
+#       - 8085:8080
+
+#   keycloakdb:
+#     image: postgres:17
+#     container_name: taskhub_keycloak_postgres_db
+#     volumes:
+#       - E:\Setup\Docker\Keycloak\data:/data/postgres
+#     ports:
+#       - "5432:5432"
+#     environment:
+#       POSTGRES_DB: keycloak
+#       POSTGRES_USER: admin
+#       POSTGRES_PASSWORD: 123456
+
+# volumes:
+#   postgres_data:
+
+version: '3.6'
+
+services:
+  keycloak_web:
+    image: quay.io/keycloak/keycloak:26.0.0
+    container_name: keycloak_web
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloakdb:5432/keycloak
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: 123456
+
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: 123456
+    command: start-dev
+    depends_on:
+      - keycloakdb
+    ports:
+      - 8085:8080
+
+  keycloakdb:
+    image: postgres:17
+    volumes:
+      - E:\Setup\Docker\Keycloak\data:/data/postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456
+
+volumes:
+  postgres_data:

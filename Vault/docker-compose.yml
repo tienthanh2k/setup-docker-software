@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  vault:
+    image: vault:1.13.3
+    container_name: taskhub_vault
+    ports:
+      - "8200:8200"  # Cổng để truy cập Vault từ ngoài
+    environment:
+      - VAULT_DEV_MODE=true
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200  # Lắng nghe tất cả các địa chỉ
+      - VAULT_DEV_ROOT_TOKEN_ID=root  # Root token dùng để authenticate vào Vault
+    volumes:
+      - E:\Setup\Docker\Vault\data:/vault/file  # Mount volume để lưu trữ dữ liệu của Vault
+    cap_add:
+      - IPC_LOCK  # Đảm bảo rằng Vault có thể lock bộ nhớ
+    networks:
+      - vault_network
+
+networks:
+  vault_network:
+    driver: bridge
